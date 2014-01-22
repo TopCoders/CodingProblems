@@ -288,9 +288,13 @@ public class Tree{// binary search tree node
 		}
     }
 	
+    /**@brief This is the morris algorithm
+     * It's a little hard to finish this with stack. We have to use extra info, so the
+     * structure for the node may change.
+     */
 	public void inorder_i(){
     	System.out.print(" pre order: ");
-		// perhaps we need extre info stored here to tell whether a node is 
+		// If we use stacks, perhaps we need extre info stored here to tell whether a node is 
 		// to be printed or to push its children into stack
 		Node node = root;
 		while(node!=null){
@@ -299,17 +303,19 @@ public class Tree{// binary search tree node
 				while(tmp.right!=null && tmp.right!=node){
 					tmp = tmp.right;
 				}
-				// build the loop for the first visit
+				// build the loop for the first visit. If there is no loop,
+				// we keep going to the left sub tree, cuz we are building the loop
 				if(tmp.right==null){
 					tmp.right = node;
+					node = node.left;
 				}
 				// tmp.right == node, we print the node and break the loop
+				// if there is a loop, we keep going to the right sub tree. 
 				else{
 					System.out.print(node.data+", ");
 					tmp.right = null;
 					node = node.right;
 				}
-				node = node.left;
 			}
 			else{
 				System.out.print(node.data+", ");
@@ -354,8 +360,10 @@ public class Tree{// binary search tree node
     	int[] arr = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13};
     	//int[] arr = {8, 4, 2, 6, 1, 3, 5, 7, 11, 10, 12, 9, 13};
     	Tree tree = new Tree(arr, 1);
-    	//tree.remove(3);
+    	tree.remove(7);
     	tree.inorder();
+    	System.out.println();
+    	tree.inorder_i();
     	System.out.println();
     	tree.preorder();
     	System.out.println();
