@@ -290,9 +290,32 @@ public class Tree{// binary search tree node
 	
 	public void inorder_i(){
     	System.out.print(" pre order: ");
-		Stack<Node> stack = new Stack<Node>();
 		// perhaps we need extre info stored here to tell whether a node is 
 		// to be printed or to push its children into stack
+		Node node = root;
+		while(node!=null){
+			if(node.left!=null){
+				Node tmp = node.left;
+				while(tmp.right!=null && tmp.right!=node){
+					tmp = tmp.right;
+				}
+				// build the loop for the first visit
+				if(tmp.right==null){
+					tmp.right = node;
+				}
+				// tmp.right == node, we print the node and break the loop
+				else{
+					System.out.print(node.data+", ");
+					tmp.right = null;
+					node = node.right;
+				}
+				node = node.left;
+			}
+			else{
+				System.out.print(node.data+", ");
+				node = node.right;
+			}
+		}
 	}
 	
 	/** @brief the way to implement stack in an post order traversal without
